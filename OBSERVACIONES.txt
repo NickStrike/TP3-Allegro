@@ -1,0 +1,4 @@
+-El .gitignore no funciona, las carpetas debug, release, .vs y el archivo .db se encuentran en el repositorio.
+-Incluye librerías de debug a release y visceversa además de muchas librerías que no utiliza.
+-No termina el juego presionando escape o tocando la cruz de la ventana.
+-No hace delete de Enemy

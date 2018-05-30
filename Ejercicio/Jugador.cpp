@@ -1,7 +1,5 @@
 #include "Jugador.h"
 
-
-
 Jugador::Jugador()
 {
 	bitmapJugador = NULL;
@@ -12,18 +10,16 @@ Jugador::Jugador()
 	h = 36;
 }
 
-
 Jugador::~Jugador()
 {
-	al_destroy_bitmap(bitmapJugador);
-	
+	al_destroy_bitmap(bitmapJugador);	
 }
 
 void Jugador::loadImage()
 {
-	bitmapJugador = al_load_bitmap("../Sprite/JugadoOP1.png");
-	
+	bitmapJugador = al_load_bitmap("../Sprite/JugadoOP1.png");	
 }
+
 void Jugador::setImage(int imagen)
 {
 	switch (imagen)
@@ -104,24 +100,29 @@ float Jugador::getH()
 {
 	return h;
 }
+
 bool Jugador::colicionEnemigo(float W_enemy, float H_enemy,float X_enemy, float Y_enemy)
 {
-	if ((Y_enemy + H_enemy > y && y > Y_enemy && x >= X_enemy && x <= X_enemy + W_enemy) || (Y_enemy + H_enemy > y && y > Y_enemy && x+w >= X_enemy && x+w <= X_enemy + W_enemy))
+	if ((Y_enemy + H_enemy > y && y > Y_enemy && x >= X_enemy && x <= X_enemy + W_enemy) 
+		|| (Y_enemy + H_enemy > y && y > Y_enemy && x+w >= X_enemy && x+w <= X_enemy + W_enemy))
 	{
 		cout << "abajo" << endl;
 		return true;
 	}
-	if ((x > X_enemy && x<X_enemy + W_enemy && y > Y_enemy && y < Y_enemy + H_enemy) || (x > X_enemy && x < X_enemy + W_enemy && y+w > Y_enemy && y+w < Y_enemy + H_enemy))
+	if ((x > X_enemy && x<X_enemy + W_enemy && y > Y_enemy && y < Y_enemy + H_enemy) 
+		|| (x > X_enemy && x < X_enemy + W_enemy && y+w > Y_enemy && y+w < Y_enemy + H_enemy))
 	{
 		cout << "Derecha" << endl;
 		return true;
 	}
-	if ((x > X_enemy-W_enemy && x<X_enemy && y > Y_enemy && y < Y_enemy + H_enemy) || (x > X_enemy - W_enemy && x < X_enemy  && y + w > Y_enemy && y + w < Y_enemy + H_enemy))
+	if ((x > X_enemy-W_enemy && x<X_enemy && y > Y_enemy && y < Y_enemy + H_enemy) 
+		|| (x > X_enemy - W_enemy && x < X_enemy  && y + w > Y_enemy && y + w < Y_enemy + H_enemy))
 	{
 		cout << "izquierda" << endl;
 		return true;
 	}
-	if (y+h > Y_enemy && y+h < Y_enemy + H_enemy && x > X_enemy && x < X_enemy + W_enemy || y + h > Y_enemy && y + h < Y_enemy+ H_enemy && x+w > X_enemy && x+w < X_enemy + W_enemy)
+	if (y+h > Y_enemy && y+h < Y_enemy + H_enemy && x > X_enemy && x < X_enemy + W_enemy 
+		|| y + h > Y_enemy && y + h < Y_enemy+ H_enemy && x+w > X_enemy && x+w < X_enemy + W_enemy)
 	{
 		cout << "Arriba" << endl;
 		return true;

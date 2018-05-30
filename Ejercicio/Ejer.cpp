@@ -2,16 +2,17 @@
 //Incluimos las funciones básicas de Allegro
 #include <iostream>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_native_dialog.h"
 #include "allegro5/allegro_primitives.h"
 #include "Jugador.h"
 #include "Enemigo.h"
+#include "Bala.h"
 using namespace std;
 int main(int argc, char** argv) {
 	const float FPS = 60;
 	bool gameOver = false;
+	int direccion;
 	//  Crea un puntero a un ALLEGRO_DISPLAY
 	ALLEGRO_DISPLAY* ventana;
 	ALLEGRO_DISPLAY *display = NULL;
@@ -21,8 +22,9 @@ int main(int argc, char** argv) {
 	ALLEGRO_EVENT_QUEUE *event_queue;
 	ALLEGRO_TIMER *timer = NULL;
 
-	Jugador *player = new Jugador();
-	Enemigo *Enemy = new Enemigo(200,200,36,38,widthPantalla, heightPantalla);
+	Jugador* player = new Jugador();
+	Enemigo* Enemy = new Enemigo(200,200,36,38,widthPantalla, heightPantalla);
+	Bala* bala = new Bala();
 	
 	//  Inicia allegro5, esto es necesario para realizar cualquier
 	//  función de allegro
@@ -79,6 +81,8 @@ int main(int argc, char** argv) {
 		al_destroy_display(display);
 		return 0;
 	}
+
+
 	//game loop
 	al_start_timer(timer);
 	while (!gameOver) {
@@ -103,14 +107,18 @@ int main(int argc, char** argv) {
 		al_flip_display();
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(event_queue, &ev);
+
+
 		switch (ev.keyboard.keycode)
 		{
+			//UP 1 - DOWN 4 - LEFT 3 - RIGHT 2
 		case ALLEGRO_KEY_UP:
 			//ANDA
 			if (player->getY() > 0)
 			{
 				player->setY(player->getY() - 2);
 				player->setImage(1);
+				direccion = 1;
 			}
 			break;
 		case ALLEGRO_KEY_DOWN:
@@ -119,6 +127,7 @@ int main(int argc, char** argv) {
 			{
 				player->setY(player->getY() + 2);
 				player->setImage(4);
+				direccion = 4;
 			}
 			break;
 		case ALLEGRO_KEY_LEFT:
@@ -127,6 +136,7 @@ int main(int argc, char** argv) {
 			{
 				player->setX(player->getX() - 2);
 				player->setImage(3);
+				direccion = 3;
 			}
 			break;
 		case ALLEGRO_KEY_RIGHT:
@@ -135,9 +145,25 @@ int main(int argc, char** argv) {
 			{
 				player->setX(player->getX() + 2);
 				player->setImage(2);
+				direccion = 2;
 			}
 			break;
+		case ALLEGRO_KEY_ESCAPE:
+			gameOver = true;
+			break;
+		case ALLEGRO_KEY_SPACE:
+			if (direccion == 1)
+				bala->disparo(player->getX(), player->getY(), player->getH(), player->getW(), 0, -5);
+			if (direccion == 4)
+				bala->disparo(player->getX(), player->getY(), player->getH(), player->getW(), 0, 5);
+			if (direccion == 3)
+				bala->disparo(player->getX(), player->getY(), player->getH(), player->getW(), -5, 0);
+			if (direccion == 2)
+				bala->disparo(player->getX(), player->getY(), player->getH(), player->getW(), 5, 0);
+			break;
+
 		}
+		//UP 1 - DOWN 4 - LEFT 3 - RIGHT 2
 		//coluciones
 		if (player->colicionEnemigo(Enemy->getW(), Enemy->getH(), Enemy->getX(), Enemy->getY()))
 		{
@@ -167,5 +193,6 @@ int main(int argc, char** argv) {
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	delete player;
+	delete Enemy;
 	return 0;
 }

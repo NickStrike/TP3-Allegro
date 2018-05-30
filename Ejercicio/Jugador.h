@@ -2,10 +2,10 @@
 #define JUGADOR_H
 #include <iostream>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_native_dialog.h"
 #include "allegro5/allegro_primitives.h"
+#include "Bala.h"
 using namespace std;
 class Jugador
 {
